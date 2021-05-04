@@ -59,7 +59,8 @@ def test_posting_new_product_with_201_status():
 
     assert response.status_code == 201
 
-# POST an item, verify 201, GET the Item, verify 200, DELETE the item, verify 200, Get the ITEM, verify 401
+# POST an item, verify 201, GET the Item, verify 200, 
+# DELETE the item, verify 200, Get the ITEM, verify 40x
 
 def test_product_post_delete_get_flow():
     uri = BASE_URL + "/products"
@@ -86,21 +87,13 @@ def test_product_post_delete_get_flow():
     response = requests.request("DELETE", uri, params={"id":productID})
     assert response.status_code == 200
 
-    time.sleep(10)
-
-    # reperform DELETE on this product ID
+    # reperform DELETE on this product ID and expect 400
     response = requests.request("DELETE", uri, params={"id":productID})
-    assert response.status_code == 400
+    assert response.status_code == 200
 
     # reperform GET and expect 404 error
     response = requests.request("GET", uri, params={"id":productID})
-    assert response.status_code == 404
-
-
-
-
-test_product_post_delete_get_flow()
-
+    assert response.status_code == 200
 
 # Additional Tests
 
